@@ -21,10 +21,16 @@ export_books.short_description = 'Export to csv'
 
 class BookAdmin(admin.ModelAdmin):
     list_display = ['title', 'publication_date', 'author', 'price', 'book_type']
-    actions = ['apply_discount', export_books]
+    actions = ['apply_discount', export_books, 'increase_price']
 
-    def apply_discount(self, request, queryset):
-        queryset.update(price=F('price') * decimal.Decimal('0.9'))
+    def apply_discount(self, request, venkatesh):
+        venkatesh.update(price=F('price') * decimal.Decimal('0.9'))
     apply_discount.short_description = 'Apply 10%% discount'
+
+    def increase_price(self, request, queryset):
+        queryset.update(price=F('price') * decimal.Decimal('1.1'))
+    increase_price.short_description = 'Increse 10%% On total price'
+
+
 
 admin.site.register(Book, BookAdmin)
